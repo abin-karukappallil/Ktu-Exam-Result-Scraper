@@ -4,7 +4,7 @@ import { useState } from "react";
 import { InputForm, type FormValues } from "./InputForm";
 import { ResultTable } from "./ResultTable";
 import { trpc } from "@/trpc/client";
-import { LayoutGrid, ShieldCheck, GraduationCap, ArrowRight } from "lucide-react";
+import { LayoutGrid, ShieldCheck, GraduationCap } from "lucide-react";
 
 interface ResultDashboardProps {
   title: string;
@@ -96,9 +96,7 @@ export function ResultDashboard({ title, subtitle }: ResultDashboardProps) {
                 <LayoutGrid className="mb-4 text-slate-300 dark:text-slate-700" size={40} strokeWidth={1} />
                 <h3 className="text-sm font-medium text-slate-600 dark:text-slate-400">Waiting for query</h3>
                 <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">Provide your credentials to retrieve semester grades</p>
-                <div className="mt-6 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-500/60">
-                   System Ready <ArrowRight size={12} />
-                </div>
+                
               </div>
             )}
           </div>

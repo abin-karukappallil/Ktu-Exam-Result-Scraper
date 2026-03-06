@@ -36,7 +36,7 @@ export function ResultTable({ courses, semesterId, isLoading }: ResultTableProps
     return (
       <div className="flex h-112.5 flex-col items-center justify-center rounded-3xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950">
         <Loader2 className="h-8 w-8 animate-spin text-indigo-500" />
-        <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Decrypting Records...</p>
+        <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-slate-400">getting Records...</p>
       </div>
     );
   }
