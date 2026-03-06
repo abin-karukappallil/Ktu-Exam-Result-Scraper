@@ -10,6 +10,16 @@ import { makeQueryClient } from "./query-client";
 
 export const trpc = createTRPCReact<AppRouter>();
 
+let _apiToken = "";
+
+export function setApiToken(token: string) {
+  _apiToken = token;
+}
+
+export function getApiToken(): string {
+  return _apiToken;
+}
+
 let clientQueryClientSingleton: ReturnType<typeof makeQueryClient> | undefined;
 
 function getQueryClient() {
@@ -34,6 +44,9 @@ export function TRPCProvider({ children }: { children: React.ReactNode }) {
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
           transformer: superjson,
+          headers() {
+            return _apiToken ? { "x-api-token": _apiToken } : {};
+          },
         }),
       ],
     })

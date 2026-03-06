@@ -1,7 +1,8 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../init";
+import { createTRPCRouter, publicProcedure, protectedProcedure } from "../init";
 import { loginKTU } from "@/lib/ktuLogin";
 import { scrapeKTUResults } from "@/lib/ktuScraprt";
+import { generateToken } from "@/lib/apiToken";
 import { TRPCError } from "@trpc/server";
 
 const getResultsInputSchema = z.object({
@@ -12,7 +13,11 @@ const getResultsInputSchema = z.object({
 });
 
 export const resultRouter = createTRPCRouter({
-  getResults: publicProcedure
+  getToken: publicProcedure.query(() => {
+    return generateToken();
+  }),
+
+  getResults: protectedProcedure
     .input(getResultsInputSchema)
     .mutation(async ({ input }) => {
       try {
@@ -27,7 +32,7 @@ export const resultRouter = createTRPCRouter({
           studentId: input.studentId,
           cookies,
         });
-        
+
         return {
           courses: result.courses,
           count: result.courses.length,
