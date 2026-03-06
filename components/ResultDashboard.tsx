@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { InputForm, type FormValues } from "./InputForm";
 import { ResultTable } from "./ResultTable";
-import { trpc } from "@/trpc/client";
+import { trpc, setApiToken } from "@/trpc/client";
 import { LayoutGrid, ShieldCheck, GraduationCap } from "lucide-react";
 
 interface ResultDashboardProps {
@@ -13,6 +13,18 @@ interface ResultDashboardProps {
 
 export function ResultDashboard({ title, subtitle }: ResultDashboardProps) {
   const [lastQuery, setLastQuery] = useState<FormValues | null>(null);
+
+  const { data: tokenData } = trpc.result.getToken.useQuery(undefined, {
+    refetchInterval: 4 * 60 * 1000, 
+    refetchOnWindowFocus: true,
+  });
+
+  useEffect(() => {
+    if (tokenData?.token) {
+      setApiToken(tokenData.token);
+      console.log("[FRONTEND] API token set, expires:", new Date(tokenData.expiresAt).toLocaleTimeString());
+    }
+  }, [tokenData]);
 
   const { data, error, isPending, mutate } = trpc.result.getResults.useMutation();
 
@@ -30,12 +42,12 @@ export function ResultDashboard({ title, subtitle }: ResultDashboardProps) {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-slate-900 dark:bg-[#050505] dark:text-slate-100 selection:bg-indigo-100 dark:selection:bg-indigo-900/30">
-      <div className="fixed inset-0 z-0 opacity-[0.03] dark:opacity-[0.05] mask-[radial-gradient(ellipse_at_center,white,transparent)]" 
-           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z' fill='%23000' fill-rule='evenodd'/%3E%3C/svg%3E")` }} 
+      <div className="fixed inset-0 z-0 opacity-[0.03] dark:opacity-[0.05] mask-[radial-gradient(ellipse_at_center,white,transparent)]"
+           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z' fill='%23000' fill-rule='evenodd'/%3E%3C/svg%3E")` }}
       />
 
       <div className="relative z-10 mx-auto max-w-5xl px-6 py-16">
-        
+
         <header className="mb-16 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-medium tracking-tight">
@@ -55,7 +67,6 @@ export function ResultDashboard({ title, subtitle }: ResultDashboardProps) {
         </header>
 
         <main className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Left Column: Form Section */}
           <div className="lg:col-span-4 space-y-8">
             <section className="relative group">
               <div className="absolute -inset-2 rounded-4xl bg-linear-to-b from-slate-200 to-transparent opacity-0 transition duration-500 group-hover:opacity-100 dark:from-slate-800" />
