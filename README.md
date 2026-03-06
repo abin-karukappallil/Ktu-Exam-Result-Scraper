@@ -1,6 +1,6 @@
 # KTU Exam Result Scraper
 
-A modern, secure web application built with **Next.js 15**, **tRPC**, and **Cheerio** that fetches semester results from the official KTU (APJ Abdul Kalam Technological University) Academic Portal — but **faster, cleaner, and more usable**.
+A modern, secure web application built with **Next.js 16**, **tRPC**, and **Cheerio** that fetches semester results from the official KTU (APJ Abdul Kalam Technological University) Academic Portal — but **faster, cleaner, and more usable**.
 
 > **⚠️ Disclaimer:** This tool does **not** store any credentials or personal data. All login requests are proxied server-side and discarded after the session ends. This project is not affiliated with KTU.
 
