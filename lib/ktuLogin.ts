@@ -118,7 +118,7 @@ export async function loginKTU(
   const csrfToken = $("input[name='CSRF_TOKEN']").val() as string;
 
   if (!csrfToken) {
-    throw new Error("Could not extract CSRF token from login page.");
+    throw new Error("Could not extract CSRF token from login page.(TRY AGAIN AND AGAIN TO GET RESULT)");
   }
 
   console.log("[LOGIN] Step 1: CSRF:", csrfToken);
